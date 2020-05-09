@@ -7,6 +7,8 @@ const title = document.getElementById('title')
 
 let slideIndex = 0
 
+const REVERSE = true;
+
 export const nextSlide = () => {
   if (slideIndex >= SLIDES_COUNT) {
     slideIndex = 0
@@ -36,5 +38,5 @@ export const previousSlide = () => {
 
   handleCSSAnimation()
   handleCanvasAnimation(slideIndex)
-  handleThreeAnimation();
+  handleThreeAnimation(REVERSE);
 }

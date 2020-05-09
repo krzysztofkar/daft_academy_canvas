@@ -68,15 +68,20 @@ const addCube = (object, callbackFn, x, y, reverse) => {
 }
 
 const animate = () => {
-  arrowBoxRotation = lerp(arrowBoxRotation, 0, .07)
-  arrowBox.rotation.set(THREE.Math.degToRad(arrowBoxRotation), 0, 0)
+  if (arrowBox && reverseArrowBox) {
+    arrowBoxRotation = lerp(arrowBoxRotation, 0, .07)
+    arrowBox.rotation.set(THREE.Math.degToRad(arrowBoxRotation), 0, 0)
+
+    reverseArrowBoxRotation = lerp(reverseArrowBoxRotation, 0, .07)
+    reverseArrowBox.rotation.set(THREE.Math.degToRad(reverseArrowBoxRotation), 0, 0)
+  }
 
   renderer.render(scene, camera)
   requestAnimationFrame(animate)
 }
 
-export const handleThreeAnimation = () => {
-  arrowBoxRotation = 360
+export const handleThreeAnimation = (reverse = false) => {
+  reverse ? reverseArrowBoxRotation = -360 : arrowBoxRotation = 360
 }
 
 window.addEventListener('click', () => {
@@ -85,7 +90,7 @@ window.addEventListener('click', () => {
   mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1
 
   raycaster.setFromCamera(mousePosition, camera)
-
-  const interesctedObjects = raycaster.intersectObjects([arrowBox])
+  console.log(arrowBox, reverseArrowBox)
+  const interesctedObjects = raycaster.intersectObjects([arrowBox, reverseArrowBox])
   interesctedObjects.length && interesctedObjects[0].object.callbackFn()
 })
