@@ -4,8 +4,12 @@ import { previousSlide } from "../main.js"
 
 const raycaster = new THREE.Raycaster()
 const objLoader = new THREE.OBJLoader()
+
 let arrowBox = null
 let arrowBoxRotation = 0
+let reverseArrowBox = null
+let reverseArrowBoxRotation = 0
+const REVERSE = true
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight)
@@ -34,13 +38,13 @@ objLoader.load(
     const screenBorderLeft = -visibleWidthAtZDepth(-10, camera) / 2
     const screenBottom = -visibleHeightAtZDepth(-10, camera) / 2
 
-    addCube(children[0], previousSlide, screenBorderLeft + 1.5, screenBottom + 1)
+    addCube(children[0], previousSlide, screenBorderLeft + 1.5, screenBottom + 1, REVERSE)
 
     animate()
   }
 )
 
-const addCube = (object, callbackFn, x, y) => {
+const addCube = (object, callbackFn, x, y, reverse) => {
   const cubeMesh = object.clone()
 
   cubeMesh.scale.setScalar(.3)
@@ -59,7 +63,7 @@ const addCube = (object, callbackFn, x, y) => {
 
   boundingBox.callbackFn = callbackFn
 
-  arrowBox = boundingBox
+  reverse ? reverseArrowBox = boundingBox : arrowBox = boundingBox
   scene.add(boundingBox)
 }
 
