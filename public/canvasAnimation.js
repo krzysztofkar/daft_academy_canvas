@@ -1,4 +1,4 @@
-import { SLIDES_COUNT, lerp, getRndInteger } from "../utils.js";
+import { SLIDES_COUNT, lerp, getRndInteger } from "./utils.js";
 
 const colorArray = [
   [171, 4, 242],
@@ -35,7 +35,7 @@ const title = document.getElementById('title')
 
 const ctx = canvas.getContext('2d')
 
-const drawGradient = ({x, y}, radius, color) => {
+const drawGradient = ({ x, y }, radius, color) => {
   const grad = ctx.createRadialGradient(x, y, 0, x, y, radius)
   grad.addColorStop(0, color)
   grad.addColorStop(1, 'rgba(0,0,0,0)')
@@ -50,13 +50,13 @@ const drawBackground = (index, alpha = 1) => {
   const currentBg = slideArray[index]
   currentBg.forEach(([x, y, radius, colors]) => {
     const [r, g, b] = colors
-    drawGradient({x, y}, radius, `rgba(${r},${g},${b},${alpha})`)
+    drawGradient({ x, y }, radius, `rgba(${r},${g},${b},${alpha})`)
   })
 }
 
-  // const drawTitleBackground = () => {
-  //   title.style.backgroundImage = `url('${canvas.toDataURL('image/jpeg')}')`
-  // }
+// const drawTitleBackground = () => {
+//   title.style.backgroundImage = `url('${canvas.toDataURL('image/jpeg')}')`
+// }
 
 const draw = () => {
   canvas.setAttribute('width', window.innerWidth)
