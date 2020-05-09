@@ -1,5 +1,5 @@
-import {visibleHeightAtZDepth, visibleWidthAtZDepth, lerp} from "../utils.js"
-import {nextSlide} from "../main.js"
+import { visibleHeightAtZDepth, visibleWidthAtZDepth, lerp } from "../utils.js"
+import { nextSlide } from "../main.js"
 
 const raycaster = new THREE.Raycaster()
 const objLoader = new THREE.OBJLoader()
@@ -9,22 +9,34 @@ let arrowBoxRotation = 0
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight)
 
-const renderer = new THREE.WebGLRenderer({antialias: true, alpha: true})
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
 renderer.setSize(window.innerWidth, window.innerHeight)
 renderer.render(scene, camera)
 
 document.body.append(renderer.domElement)
 
 objLoader.load(
-    'models/cube.obj',
-    ({children}) => {
-      const screenBorderRight = visibleWidthAtZDepth(-10, camera) / 2
-      const screenBottom = -visibleHeightAtZDepth(-10, camera) / 2
+  'models/cube.obj',
+  ({ children }) => {
+    const screenBorderRight = visibleWidthAtZDepth(-10, camera) / 2
+    const screenBottom = -visibleHeightAtZDepth(-10, camera) / 2
 
-      addCube(children[0], nextSlide, screenBorderRight - 1.5, screenBottom + 1)
+    addCube(children[0], nextSlide, screenBorderRight - 1.5, screenBottom + 1)
 
-      animate()
-    }
+    animate()
+  }
+)
+
+objLoader.load(
+  'models/reverse_cube.obj',
+  ({ children }) => {
+    const screenBorderLeft = -visibleWidthAtZDepth(-10, camera) / 2
+    const screenBottom = -visibleHeightAtZDepth(-10, camera) / 2
+
+    addCube(children[0], nextSlide, screenBorderLeft + 1.5, screenBottom + 1)
+
+    animate()
+  }
 )
 
 const addCube = (object, callbackFn, x, y) => {
@@ -34,8 +46,8 @@ const addCube = (object, callbackFn, x, y) => {
   cubeMesh.rotation.set(THREE.Math.degToRad(90), 0, 0)
 
   const boundingBox = new THREE.Mesh(
-      new THREE.BoxGeometry(.7, .7, .7),
-      new THREE.MeshBasicMaterial({transparent: true, opacity: 0})
+    new THREE.BoxGeometry(.7, .7, .7),
+    new THREE.MeshBasicMaterial({ transparent: true, opacity: 0 })
   )
 
   boundingBox.position.x = x
