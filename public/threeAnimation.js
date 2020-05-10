@@ -90,7 +90,6 @@ window.addEventListener('click', () => {
   mousePosition.y = -(event.clientY / window.innerHeight) * 2 + 1
 
   raycaster.setFromCamera(mousePosition, camera)
-  console.log(arrowBox, reverseArrowBox)
   const interesctedObjects = raycaster.intersectObjects([arrowBox, reverseArrowBox])
   interesctedObjects.length && interesctedObjects[0].object.callbackFn()
 })
