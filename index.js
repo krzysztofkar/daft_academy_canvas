@@ -8,6 +8,6 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 })
 
-app.listen(8000, () => {
-  console.log('webgl-daftacademy on 8000!')
-});
+const port = process.env.PORT || 3333;
+
+app.listen(port, () => console.log(`Listening on port ${port}...`));
