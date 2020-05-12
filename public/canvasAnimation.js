@@ -54,9 +54,18 @@ const drawBackground = (index, alpha = 1) => {
   })
 }
 
-// const drawTitleBackground = () => {
-//   title.style.backgroundImage = `url('${canvas.toDataURL('image/jpeg')}')`
-// }
+const drawTitleBackground = () => {
+  canvas.toBlob(function (blob) {
+    const url = URL.createObjectURL(blob);
+    title.style.backgroundImage = `url(${url})`
+  }, "image/jpeg", 0.1);
+  let req = requestAnimationFrame(() => drawTitleBackground(ctx, canvas))
+  if (currentAlpha > 0.9) {
+    cancelAnimationFrame(req);
+  }
+
+}
+
 
 const draw = () => {
   canvas.setAttribute('width', window.innerWidth)
@@ -67,18 +76,22 @@ const draw = () => {
 
   drawBackground(currentSlide - 1, previousAlpha)
   drawBackground(currentSlide, currentAlpha)
+  const req = requestAnimationFrame(() => draw(ctx, canvas))
 
-  // drawTitleBackground()
-
-  requestAnimationFrame(() => draw(ctx, canvas))
+  if (currentAlpha > 0.9) {
+    cancelAnimationFrame(req);
+  }
 }
 
-draw()
+draw();
+drawTitleBackground();
 
 export const handleCanvasAnimation = slideIndex => {
   currentSlide = slideIndex
+  requestAnimationFrame(() => drawTitleBackground(ctx, canvas))
+  requestAnimationFrame(() => draw(ctx, canvas))
+
 
   currentAlpha = 0
   previousAlpha = 1
 }
-
